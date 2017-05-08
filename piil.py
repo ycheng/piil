@@ -42,7 +42,12 @@ def main(cfg):
         except (psutil.AccessDenied, psutil.NoSuchProcess, PermissionError, FileNotFoundError):
             pass
     for filename in pinfo.file_r_idx:
-        if cfg.search_strings[0] in filename:
+        source = filename
+        target = cfg.search_strings[0]
+        if cfg.ignorecase:
+            source = source.lower()
+            target = target.lower()
+        if target in source:
             for full_filepath in pinfo.file_r_idx[filename]:
                 print(full_filepath, pinfo.file_path_r_idx[full_filepath])
 
